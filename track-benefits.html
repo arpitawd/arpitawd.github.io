@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Track Benefits</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Roboto', sans-serif; margin: 0; padding: 0; background-color: #f8f9fa; color: #333; }
+        .top-most-bar { background-color: #eef1f6; color: #194a7b; display: flex; justify-content: space-between; align-items: center; padding: 12px 50px; font-size: 14px; box-shadow: 0px 2px 10px rgba(0,0,0,0.1); }
+        .top-most-bar div { display: flex; align-items: center; gap: 12px; }
+        .hero-section { background: linear-gradient(rgba(25, 74, 123, 0.6), rgba(25, 74, 123, 0.6)), url('https://ifmrlead.org/wp-content/uploads/2022/02/51413382726_0da993d12e_o-1240x698.jpg') center/cover no-repeat; height: 300px; display: flex; align-items: center; justify-content: center; color: white; font-size: 28px; font-weight: bold; text-shadow: 2px 2px 10px rgba(0,0,0,0.3); }
+        .marquee-container { background: white; padding: 12px; overflow: hidden; white-space: nowrap; position: relative; border-bottom: 2px solid #ddd; }
+        .marquee-text { display: inline-block; animation: marquee 12s linear infinite; font-weight: bold; color: #d9534f; }
+        @keyframes marquee { from { transform: translateX(100%); } to { transform: translateX(-100%); } }
+        .nav-bar { background-color: #194a7b; display: flex; justify-content: center; padding: 15px 0; gap: 30px; box-shadow: 0px 4px 10px rgba(0,0,0,0.1); }
+        .nav-bar a { color: white; text-decoration: none; font-size: 16px; font-weight: bold; padding: 12px 20px; transition: 0.3s; border-radius: 5px; }
+        .nav-bar a:hover { background-color: #002f5e; }
+        .content-container { padding: 50px; background-color: #eef1f6; border-radius: 10px; margin: 30px auto; width: 80%; box-shadow: 0px 4px 10px rgba(0,0,0,0.1); }
+        .total-amount { font-size: 24px; font-weight: bold; margin-bottom: 20px; text-align: center; }
+        .filter-bar { display: flex; justify-content: space-between; margin-bottom: 20px; gap: 10px; }
+        .filter-bar input, .filter-bar select { padding: 8px; border: 1px solid #ddd; border-radius: 5px; }
+        .transaction-table { width: 100%; border-collapse: collapse; margin-top: 20px; background: white; border-radius: 10px; overflow: hidden; }
+        .transaction-table th, .transaction-table td { padding: 12px; text-align: left; border-bottom: 1px solid #ddd; }
+        .transaction-table th { background-color: #194a7b; color: white; }
+        .transaction-table td.status-success { background-color: #d4edda; }
+        .transaction-table td.status-in-process { background-color: #fff3cd; }
+        .chat-icons { position: fixed; bottom: 20px; right: 20px; display: flex; flex-direction: column; gap: 12px; }
+        .chat-icon { width: 65px; height: 65px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.3); background-color: #007bff; transition: 0.3s ease; }
+        .chat-icon:hover { transform: scale(1.1); }
+        .chat-icon.whatsapp { background-color: #FFFFFF; }
+        .chat-icon.whatsapp img { width: 35px; height: 35px; }
+        .chat-icon.chatbot::after { content: "💬"; font-size: 28px; color: white; }
+        .chatbot-wrapper { display: none; position: fixed; bottom: 100px; right: 20px; width: 320px; background: white; border-radius: 10px; box-shadow: 0px 4px 10px rgba(0,0,0,0.3); }
+        .chatbot-wrapper.active { display: block; }
+        .chatbot-header { background: #007bff; color: white; padding: 12px; text-align: center; font-size: 16px; border-top-left-radius: 10px; border-top-right-radius: 10px; }
+        .chatbot-body { padding: 15px; height: 250px; overflow-y: auto; }
+        .chatbot-footer { padding: 12px; border-top: 1px solid #ddd; display: flex; gap: 5px; }
+        .chatbot-footer input { flex-grow: 1; padding: 8px; border: 1px solid #ddd; border-radius: 5px; }
+        .chatbot-footer button { padding: 8px; border: none; background: #007bff; color: white; border-radius: 5px; cursor: pointer; }
+    </style>
+    <script>
+        function toggleChatbot() { document.getElementById("chatbotWrapper").classList.toggle("active"); }
+        function sendMessage() {
+            const message = document.getElementById("chatbotMessage").value;
+            if (message) {
+                const dialogue = document.getElementById("dialogue");
+                dialogue.innerHTML += `<div><strong>You:</strong> ${message}</div>`;
+                document.getElementById("chatbotMessage").value = "";
+                setTimeout(() => { dialogue.innerHTML += `<div><strong>Bot:</strong> Thank you for your message. We will get back to you shortly.</div>`; }, 1000);
+            }
+            return false;
+        }
+
+        function filterTransactions() {
+            const schemeFilter = document.getElementById("schemeFilter").value.toLowerCase();
+            const dateFilter = document.getElementById("dateFilter").value;
+            const amountFilter = document.getElementById("amountFilter").value;
+            const rows = document.querySelectorAll(".transaction-table tbody tr");
+
+            rows.forEach(row => {
+                const scheme = row.cells[1].textContent.toLowerCase();
+                const date = row.cells[0].textContent;
+                const amount = row.cells[2].textContent.replace(/[^0-9.]/g, '');
+
+                const matchesScheme = scheme.includes(schemeFilter);
+                const matchesDate = date.includes(dateFilter);
+                const matchesAmount = amount.includes(amountFilter);
+
+                if (matchesScheme && matchesDate && matchesAmount) {
+                    row.style.display = "";
+                } else {
+                    row.style.display = "none";
+                }
+            });
+        }
+
+        function sortTransactions() {
+            const sortBy = document.getElementById("sortBy").value;
+            const rows = Array.from(document.querySelectorAll(".transaction-table tbody tr"));
+
+            rows.sort((a, b) => {
+                const aValue = a.cells[sortBy === "date" ? 0 : sortBy === "scheme" ? 1 : 2].textContent;
+                const bValue = b.cells[sortBy === "date" ? 0 : sortBy === "scheme" ? 1 : 2].textContent;
+
+                if (sortBy === "date") {
+                    return new Date(aValue) - new Date(bValue);
+                } else if (sortBy === "amount") {
+                    return parseFloat(aValue.replace(/[^0-9.]/g, '')) - parseFloat(bValue.replace(/[^0-9.]/g, ''));
+                } else {
+                    return aValue.localeCompare(bValue);
+                }
+            });
+
+            const tbody = document.querySelector(".transaction-table tbody");
+            tbody.innerHTML = "";
+            rows.forEach(row => tbody.appendChild(row));
+        }
+    </script>
+</head>
+<body>
+    <div class="top-most-bar"><div>📞 Toll Free Number : 14477</div><div>🔔 | 🏛 | 👁 Screen Reader | Language ▼</div></div>
+    <div class="hero-section">Track Your Benefits Effortlessly</div>
+    <div class="marquee-container"><div class="marquee-text">WhatsApp assisted AI-ChatBot is now live at +91 99999333334. Text us for any questions!</div></div>
+    <div class="nav-bar"><a href="#">Home</a><a href="#">Register</a><a href="#">About</a><a href="#">Sign Up</a><a href="#">Log In</a><a href="#">Track Benefits</a></div>
+    <div class="content-container">
+        <div class="total-amount">Total Amount Received: ₹20,823.40</div>
+        <div class="filter-bar">
+            <input type="text" id="schemeFilter" placeholder="Filter by Scheme Name" oninput="filterTransactions()">
+            <input type="text" id="dateFilter" placeholder="Filter by Date (YYYY-MM-DD)" oninput="filterTransactions()">
+            <input type="text" id="amountFilter" placeholder="Filter by Amount" oninput="filterTransactions()">
+            <select id="sortBy" onchange="sortTransactions()">
+                <option value="">Sort By</option>
+                <option value="date">Date</option>
+                <option value="scheme">Scheme Name</option>
+                <option value="amount">Amount</option>
+            </select>
+        </div>
+        <table class="transaction-table">
+            <thead>
+                <tr>
+                    <th>Date of Transaction</th>
+                    <th>Scheme Name</th>
+                    <th>Amount Transferred</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>2023-10-01</td>
+                    <td>PM-Kisan</td>
+                    <td>₹2000</td>
+                    <td class="status-success">Success</td>
+                    <td><button>Raise Issue</button></td>
+                </tr>
+                <tr>
+                    <td>2023-10-01</td>
+                    <td>PM-Kisan</td>
+                    <td>₹2000</td>
+                    <td class="status-in-process">In Process</td>
+                    <td><button>Raise Issue</button></td>
+                </tr>
+                <tr>
+                    <td>2023-10-01</td>
+                    <td>PM-Kisan</td>
+                    <td>₹2000</td>
+                    <td class="status-success">Success</td>
+                    <td><button>Raise Issue</button></td>
+                </tr>
+                <tr>
+                    <td>2023-10-01</td>
+                    <td>PM-Kisan</td>
+                    <td>₹2000</td>
+                    <td class="status-success">Success</td>
+                    <td><button>Raise Issue</button></td>
+                </tr>
+                <tr>
+                    <td>2023-10-01</td>
+                    <td>PM-Kisan</td>
+                    <td>₹2000</td>
+                    <td class="status-success">Success</td>
+                    <td><button>Raise Issue</button></td>
+                </tr>
+                <tr>
+                    <td>2023-10-01</td>
+                    <td>PM-Kisan</td>
+                    <td>₹2000</td>
+                    <td class="status-success">Success</td>
+                    <td><button>Raise Issue</button></td>
+                </tr>
+                <tr>
+                    <td>2023-10-01</td>
+                    <td>PM-Kisan</td>
+                    <td>₹2000</td>
+                    <td class="status-in-process">In Process</td>
+                    <td><button>Raise Issue</button></td>
+                </tr>
+                <tr>
+                    <td>2023-10-01</td>
+                    <td>PM-Kisan</td>
+                    <td>₹2000</td>
+                    <td class="status-in-process">In Process</td>
+                    <td><button>Raise Issue</button></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="chat-icons">
+        <div class="chat-icon chatbot" onclick="toggleChatbot()"></div>
+        <div class="chat-icon whatsapp" onclick="window.location.href='https://wa.me/9994328212'">
+            <img src="https://cdn.iconscout.com/icon/free/png-512/free-whatsapp-logo-icon-download-in-svg-png-gif-file-formats--brand-social-media-pack-logos-icons-2641595.png?f=webp&w=512" alt="WhatsApp">
+        </div>
+    </div>
+    <div id="chatbotWrapper" class="chatbot-wrapper">
+        <div class="chatbot-header">Chatbot</div>
+        <div class="chatbot-body" id="dialogue"></div>
+        <div class="chatbot-footer">
+            <form onSubmit="return sendMessage()">
+                <input type="text" id="chatbotMessage" placeholder="Type your message...">
+                <button type="submit">Send</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

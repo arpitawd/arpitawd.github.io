@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Support</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        .top-most-bar {
+            background-color: #194a7b;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 40px;
+            font-size: 14px;
+        }
+        .top-most-bar div {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .hero-section {
+            background: url('https://ifmrlead.org/wp-content/uploads/2022/02/51413382726_0da993d12e_o-1240x698.jpg') center/cover no-repeat;
+            height: 300px;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-align: center;
+        }
+        .hero-section h1 {
+            font-size: 2.5rem;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 20px;
+            border-radius: 10px;
+        }
+        .marquee-container {
+            background: #194a7b;
+            padding: 15px;
+            overflow: hidden;
+            white-space: nowrap;
+            position: relative;
+        }
+        .marquee-text {
+            display: inline-block;
+            animation: marquee 10s linear infinite;
+            font-weight: bold;
+            color: white;
+            font-size: 1.1rem;
+        }
+        @keyframes marquee {
+            from { transform: translateX(100%); }
+            to { transform: translateX(-100%); }
+        }
+        .content-container {
+            padding: 40px;
+            background-color: white;
+            max-width: 800px;
+            margin: 20px auto;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .support-info {
+            margin-bottom: 30px;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .support-info h2 {
+            margin-bottom: 15px;
+            color: #194a7b;
+            font-size: 1.5rem;
+        }
+        .support-info p {
+            margin: 10px 0;
+            font-size: 1rem;
+            color: #555;
+        }
+        .support-info a {
+            color: #007bff;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .support-info a:hover {
+            text-decoration: underline;
+        }
+        .search-bar {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .search-bar input {
+            padding: 10px;
+            width: 70%;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+        .search-bar button {
+            padding: 10px 20px;
+            background-color: #194a7b;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s ease;
+        }
+        .search-bar button:hover {
+            background-color: #143a62;
+        }
+        #helpDeskLocation {
+            font-weight: 600;
+            color: #194a7b;
+            margin-top: 10px;
+        }
+        /* Chat Icons */
+        .chat-icons {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .chat-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            background-color: #007bff;
+            color: white;
+            transition: transform 0.3s ease;
+        }
+
+        .chat-icon:hover {
+            transform: scale(1.1);
+        }
+
+        .chat-icon.whatsapp {
+            background-color: #FFFFFF;
+        }
+
+        .chat-icon.whatsapp img {
+            width: 30px;
+            height: 30px;
+        }
+
+        .chat-icon.chatbot::after {
+            content: "💬";
+            font-size: 24px;
+        }
+        /* Chatbot Wrapper */
+        .chatbot-wrapper {
+            display: none;
+            position: fixed;
+            bottom: 100px;
+            right: 20px;
+            width: 300px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+            z-index: 10;
+        }
+
+        .chatbot-wrapper.active {
+            display: block;
+        }
+
+        .chatbot-header {
+            background: #007bff;
+            color: white;
+            padding: 10px;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+            text-align: center;
+        }
+
+        .chatbot-body {
+            padding: 10px;
+            height: 200px;
+            overflow-y: auto;
+        }
+
+        .chatbot-footer {
+            padding: 10px;
+            border-top: 1px solid #ddd;
+        }
+
+        .chatbot-footer input {
+            width: calc(100% - 60px);
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .chatbot-footer button {
+            width: 50px;
+            padding: 8px;
+            border: none;
+            background: #007bff;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+
+
+    </style>
+</head>
+<body>
+    <div class="top-most-bar">
+        <div>
+            <span>📞 Toll Free Number : 14477</span>
+        </div>
+        <div>
+            <span>🔔 | 🏛 | 👁 Screen Reader | Language ▼</span>
+        </div>
+    </div>
+    <div class="hero-section">
+        <h1>We're Here to Help You!</h1>
+    </div>
+    <div class="marquee-container">
+        <div class="marquee-text">WhatsApp assisted AI-ChatBot is now live at +91 99999333334. Text us for any questions!</div>
+    </div>
+    <div class="content-container">
+        <div class="support-info">
+            <h2>Reach us on WhatsApp Chat</h2>
+            <p><a href="https://wa.me/9583822453">9583822453</a></p>
+        </div>
+        <div class="support-info">
+            <h2>Find your nearest UWI Help Desk</h2>
+            <div class="search-bar">
+                <input type="text" id="pincode" placeholder="Enter Pincode">
+                <button onclick="findHelpDesk()">Search</button>
+            </div>
+            <p id="helpDeskLocation"></p>
+        </div>
+        <div class="support-info">
+            <h2>Get in touch via Phone</h2>
+            <p>+91 48382949292</p>
+        </div>
+    </div>
+    <!-- Chat Icons -->
+    <div class="chat-icons">
+        <div class="chat-icon chatbot" onclick="toggleChatbot()"></div>
+        <div class="chat-icon whatsapp" onclick="window.location.href='https://wa.me/9994328212'">
+            <img src="https://cdn.iconscout.com/icon/free/png-512/free-whatsapp-logo-icon-download-in-svg-png-gif-file-formats--brand-social-media-pack-logos-icons-2641595.png?f=webp&w=512" alt="WhatsApp">
+        </div>
+    </div>
+
+    <!-- Chatbot Wrapper -->
+    <div id="chatbotWrapper" class="chatbot-wrapper">
+        <div class="chatbot-header">Chatbot</div>
+        <div class="chatbot-body" id="dialogue"></div>
+        <div class="chatbot-footer">
+            <form onSubmit="return sendMessage()">
+                <input type="text" id="chatbotMessage" placeholder="Type your message...">
+                <button type="submit">Send</button>
+            </form>
+        </div>
+    </div>
+    <script>
+        function findHelpDesk() {
+            const pincode = document.getElementById("pincode").value;
+            const locations = [
+                "UWI Help Desk, New Delhi",
+                "UWI Help Desk, Mumbai",
+                "UWI Help Desk, Bangalore",
+                "UWI Help Desk, Chennai",
+                "UWI Help Desk, Kolkata"
+            ];
+            const randomLocation = locations[Math.floor(Math.random() * locations.length)];
+            document.getElementById("helpDeskLocation").innerText = `Nearest Help Desk: ${randomLocation}`;
+        }
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Service Finder</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Roboto', sans-serif; margin: 0; padding: 0; background-color: #f8f9fa; color: #333; }
+        .top-most-bar { background-color: #eef1f6; color: #194a7b; display: flex; justify-content: space-between; align-items: center; padding: 12px 50px; font-size: 14px; box-shadow: 0px 2px 10px rgba(0,0,0,0.1); }
+        .top-most-bar div { display: flex; align-items: center; gap: 12px; }
+        .hero-section { background: linear-gradient(rgba(25, 74, 123, 0.6), rgba(25, 74, 123, 0.6)), url('https://ifmrlead.org/wp-content/uploads/2022/02/51413382726_0da993d12e_o-1240x698.jpg') center/cover no-repeat; height: 300px; display: flex; align-items: center; justify-content: center; color: white; font-size: 28px; font-weight: bold; text-shadow: 2px 2px 10px rgba(0,0,0,0.3); }
+        .marquee-container { background: white; padding: 12px; overflow: hidden; white-space: nowrap; position: relative; border-bottom: 2px solid #ddd; }
+        .marquee-text { display: inline-block; animation: marquee 12s linear infinite; font-weight: bold; color: #d9534f; }
+        @keyframes marquee { from { transform: translateX(100%); } to { transform: translateX(-100%); } }
+        .nav-bar { background-color: #194a7b; display: flex; justify-content: center; padding: 15px 0; gap: 30px; box-shadow: 0px 4px 10px rgba(0,0,0,0.1); }
+        .nav-bar a { color: white; text-decoration: none; font-size: 16px; font-weight: bold; padding: 12px 20px; transition: 0.3s; border-radius: 5px; }
+        .nav-bar a:hover { background-color: #002f5e; }
+        .content-container { padding: 50px; background-color: #eef1f6; border-radius: 10px; margin: 30px auto; width: 80%; box-shadow: 0px 4px 10px rgba(0,0,0,0.1); }
+        .search-bar { display: flex; justify-content: center; margin-bottom: 30px; }
+        .search-bar input { width: 60%; padding: 12px; border: 1px solid #ddd; border-radius: 5px; font-size: 16px; }
+        .scheme-card { background: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; box-shadow: 0px 4px 10px rgba(0,0,0,0.1); }
+        .scheme-card h3 { margin-top: 0; color: #194a7b; }
+        .scheme-card p { margin: 10px 0; }
+        .scheme-card .highlight { font-weight: bold; color: #d9534f; }
+        .chat-icons { position: fixed; bottom: 20px; right: 20px; display: flex; flex-direction: column; gap: 12px; }
+        .chat-icon { width: 65px; height: 65px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.3); background-color: #007bff; transition: 0.3s ease; }
+        .chat-icon:hover { transform: scale(1.1); }
+        .chat-icon.whatsapp { background-color: #FFFFFF; }
+        .chat-icon.whatsapp img { width: 35px; height: 35px; }
+        .chat-icon.chatbot::after { content: "💬"; font-size: 28px; color: white; }
+        .chatbot-wrapper { display: none; position: fixed; bottom: 100px; right: 20px; width: 320px; background: white; border-radius: 10px; box-shadow: 0px 4px 10px rgba(0,0,0,0.3); }
+        .chatbot-wrapper.active { display: block; }
+        .chatbot-header { background: #007bff; color: white; padding: 12px; text-align: center; font-size: 16px; border-top-left-radius: 10px; border-top-right-radius: 10px; }
+        .chatbot-body { padding: 15px; height: 250px; overflow-y: auto; }
+        .chatbot-footer { padding: 12px; border-top: 1px solid #ddd; display: flex; gap: 5px; }
+        .chatbot-footer input { flex-grow: 1; padding: 8px; border: 1px solid #ddd; border-radius: 5px; }
+        .chatbot-footer button { padding: 8px; border: none; background: #007bff; color: white; border-radius: 5px; cursor: pointer; }
+    </style>
+    <script>
+        function toggleChatbot() { document.getElementById("chatbotWrapper").classList.toggle("active"); }
+        function sendMessage() {
+            const message = document.getElementById("chatbotMessage").value;
+            if (message) {
+                const dialogue = document.getElementById("dialogue");
+                dialogue.innerHTML += `<div><strong>You:</strong> ${message}</div>`;
+                document.getElementById("chatbotMessage").value = "";
+                setTimeout(() => { dialogue.innerHTML += `<div><strong>Bot:</strong> Thank you for your message. We will get back to you shortly.</div>`; }, 1000);
+            }
+            return false;
+        }
+
+        function filterSchemes() {
+            const searchTerm = document.getElementById("searchInput").value.toLowerCase();
+            const cards = document.querySelectorAll(".scheme-card");
+
+            cards.forEach(card => {
+                const text = card.textContent.toLowerCase();
+                if (text.includes(searchTerm)) {
+                    card.style.display = "";
+                } else {
+                    card.style.display = "none";
+                }
+            });
+        }
+    </script>
+</head>
+<body>
+    <div class="top-most-bar"><div>📞 Toll Free Number : 14477</div><div>🔔 | 🏛 | 👁 Screen Reader | Language ▼</div></div>
+    <div class="hero-section">Find Welfare Schemes Easily</div>
+    <div class="marquee-container"><div class="marquee-text">WhatsApp assisted AI-ChatBot is now live at +91 99999333334. Text us for any questions!</div></div>
+    <div class="nav-bar"><a href="#">Home</a><a href="#">About</a><a href="#">Register</a><a href="#">Log In</a><a href="#">Track Benefits</a><a href="#">Service Finder</a><a href="#">Support</a></div>
+    <div class="content-container">
+        <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Search by scheme name, benefits, eligibility, etc." oninput="filterSchemes()">
+        </div>
+       <div class="scheme-card">
+    <h3>Pradhan Mantri Jan Dhan Yojana (PMJDY)</h3>
+    <p><span class="highlight">Description:</span> A financial inclusion scheme aimed at providing banking services to all.</p>
+    <p><span class="highlight">Benefits:</span> Zero balance accounts, RuPay debit card, overdraft facility of ₹10,000, accident insurance of ₹2 lakh.</p>
+    <p><span class="highlight">Eligibility:</span> Any Indian citizen above 10 years.</p>
+    <p><span class="highlight">State-Specific:</span> No</p>
+    <p><span class="highlight">States Applicable In:</span> All states and UTs</p>
+</div>
+
+<div class="scheme-card">
+    <h3>Mahatma Gandhi National Rural Employment Guarantee Act (MGNREGA)</h3>
+    <p><span class="highlight">Description:</span> Provides 100 days of wage employment to rural households.</p>
+    <p><span class="highlight">Benefits:</span> Guaranteed employment, wages as per state government norms.</p>
+    <p><span class="highlight">Eligibility:</span> Rural households willing to do unskilled manual labor.</p>
+    <p><span class="highlight">State-Specific:</span> No</p>
+    <p><span class="highlight">States Applicable In:</span> All states and UTs</p>
+</div>
+
+<div class="scheme-card">
+    <h3>Pradhan Mantri Kisan Samman Nidhi (PM-KISAN)</h3>
+    <p><span class="highlight">Description:</span> Direct income support to small and marginal farmers.</p>
+    <p><span class="highlight">Benefits:</span> ₹6,000 per year in three installments.</p>
+    <p><span class="highlight">Eligibility:</span> Landholding farmer families.</p>
+    <p><span class="highlight">State-Specific:</span> No</p>
+    <p><span class="highlight">States Applicable In:</span> All states and UTs</p>
+</div>
+
+<div class="scheme-card">
+    <h3>Ayushman Bharat – Pradhan Mantri Jan Arogya Yojana (PMJAY)</h3>
+    <p><span class="highlight">Description:</span> Provides free health insurance to economically vulnerable families.</p>
+    <p><span class="highlight">Benefits:</span> Health cover of ₹5 lakh per family per year.</p>
+    <p><span class="highlight">Eligibility:</span> Families listed in SECC 2011 database.</p>
+    <p><span class="highlight">State-Specific:</span> No</p>
+    <p><span class="highlight">States Applicable In:</span> All states and UTs</p>
+</div>
+
+<div class="scheme-card">
+    <h3>Pradhan Mantri Awas Yojana (PMAY)</h3>
+    <p><span class="highlight">Description:</span> Affordable housing for urban and rural poor.</p>
+    <p><span class="highlight">Benefits:</span> Subsidized housing loans, financial assistance for home construction.</p>
+    <p><span class="highlight">Eligibility:</span> Economically Weaker Sections (EWS), Low-Income Groups (LIG).</p>
+    <p><span class="highlight">State-Specific:</span> No</p>
+    <p><span class="highlight">States Applicable In:</span> All states and UTs</p>
+</div>
+
+<div class="scheme-card">
+    <h3>National Food Security Act (NFSA)</h3>
+    <p><span class="highlight">Description:</span> Ensures subsidized food grains to poor households.</p>
+    <p><span class="highlight">Benefits:</span> 5 kg of food grains per person per month at ₹3/kg for rice, ₹2/kg for wheat.</p>
+    <p><span class="highlight">Eligibility:</span> Below Poverty Line (BPL) and priority households.</p>
+    <p><span class="highlight">State-Specific:</span> No</p>
+    <p><span class="highlight">States Applicable In:</span> All states and UTs</p>
+</div>
+
+<div class="scheme-card">
+    <h3>Pradhan Mantri Ujjwala Yojana (PMUY)</h3>
+    <p><span class="highlight">Description:</span> Provides LPG connections to women in BPL households.</p>
+    <p><span class="highlight">Benefits:</span> Free LPG connection with financial assistance.</p>
+    <p><span class="highlight">Eligibility:</span> BPL women with no LPG connection.</p>
+    <p><span class="highlight">State-Specific:</span> No</p>
+    <p><span class="highlight">States Applicable In:</span> All states and UTs</p>
+</div>
+
+<div class="scheme-card">
+    <h3>Atal Pension Yojana (APY)</h3>
+    <p><span class="highlight">Description:</span> A pension scheme for unorganized sector workers.</p>
+    <p><span class="highlight">Benefits:</span> Guaranteed monthly pension of ₹1,000–₹5,000 after 60 years of age.</p>
+    <p><span class="highlight">Eligibility:</span> Indian citizens aged 18–40 years.</p>
+    <p><span class="highlight">State-Specific:</span> No</p>
+    <p><span class="highlight">States Applicable In:</span> All states and UTs</p>
+</div>
+<div class="scheme-card">
+    <h3>Pradhan Mantri Jan Dhan Yojana (PMJDY)</h3>
+    <p><span class="highlight">Description:</span> A financial inclusion scheme aimed at providing banking services to all.</p>
+    <p><span class="highlight">Benefits:</span> Zero balance accounts, RuPay debit card, overdraft facility of ₹10,000, accident insurance of ₹2 lakh.</p>
+    <p><span class="highlight">Eligibility:</span> Any Indian citizen above 10 years.</p>
+    <p><span class="highlight">State-Specific:</span> No</p>
+    <p><span class="highlight">States Applicable In:</span> All states and UTs</p>
+</div>
+
+<div class="scheme-card">
+    <h3>Mahatma Gandhi National Rural Employment Guarantee Act (MGNREGA)</h3>
+    <p><span class="highlight">Description:</span> Provides 100 days of wage employment to rural households.</p>
+    <p><span class="highlight">Benefits:</span> Guaranteed employment, wages as per state government norms.</p>
+    <p><span class="highlight">Eligibility:</span> Rural households willing to do unskilled manual labor.</p>
+    <p><span class="highlight">State-Specific:</span> No</p>
+    <p><span class="highlight">States Applicable In:</span> All states and UTs</p>
+</div>
+
+<div class="scheme-card">
+    <h3>Pradhan Mantri Kisan Samman Nidhi (PM-KISAN)</h3>
+    <p><span class="highlight">Description:</span> Direct income support to small and marginal farmers.</p>
+    <p><span class="highlight">Benefits:</span> ₹6,000 per year in three installments.</p>
+    <p><span class="highlight">Eligibility:</span> Landholding farmer families.</p>
+    <p><span class="highlight">State-Specific:</span> No</p>
+    <p><span class="highlight">States Applicable In:</span> All states and UTs</p>
+</div>
+
+<div class="scheme-card">
+    <h3>Ayushman Bharat – Pradhan Mantri Jan Arogya Yojana (PMJAY)</h3>
+    <p><span class="highlight">Description:</span> Provides free health insurance to economically vulnerable families.</p>
+    <p><span class="highlight">Benefits:</span> Health cover of ₹5 lakh per family per year.</p>
+    <p><span class="highlight">Eligibility:</span> Families listed in SECC 2011 database.</p>
+    <p><span class="highlight">State-Specific:</span> No</p>
+    <p><span class="highlight">States Applicable In:</span> All states and UTs</p>
+</div>
+
+<div class="scheme-card">
+    <h3>Pradhan Mantri Awas Yojana (PMAY)</h3>
+    <p><span class="highlight">Description:</span> Affordable housing for urban and rural poor.</p>
+    <p><span class="highlight">Benefits:</span> Subsidized housing loans, financial assistance for home construction.</p>
+    <p><span class="highlight">Eligibility:</span> Economically Weaker Sections (EWS), Low-Income Groups (LIG).</p>
+    <p><span class="highlight">State-Specific:</span> No</p>
+    <p><span class="highlight">States Applicable In:</span> All states and UTs</p>
+</div>
+
+<div class="scheme-card">
+    <h3>National Food Security Act (NFSA)</h3>
+    <p><span class="highlight">Description:</span> Ensures subsidized food grains to poor households.</p>
+    <p><span class="highlight">Benefits:</span> 5 kg of food grains per person per month at ₹3/kg for rice, ₹2/kg for wheat.</p>
+    <p><span class="highlight">Eligibility:</span> Below Poverty Line (BPL) and priority households.</p>
+    <p><span class="highlight">State-Specific:</span> No</p>
+    <p><span class="highlight">States Applicable In:</span> All states and UTs</p>
+</div>
+
+<div class="scheme-card">
+    <h3>Pradhan Mantri Ujjwala Yojana (PMUY)</h3>
+    <p><span class="highlight">Description:</span> Provides LPG connections to women in BPL households.</p>
+    <p><span class="highlight">Benefits:</span> Free LPG connection with financial assistance.</p>
+    <p><span class="highlight">Eligibility:</span> BPL women with no LPG connection.</p>
+    <p><span class="highlight">State-Specific:</span> No</p>
+    <p><span class="highlight">States Applicable In:</span> All states and UTs</p>
+</div>
+
+<div class="scheme-card">
+    <h3>Atal Pension Yojana (APY)</h3>
+    <p><span class="highlight">Description:</span> A pension scheme for unorganized sector workers.</p>
+    <p><span class="highlight">Benefits:</span> Guaranteed monthly pension of ₹1,000–₹5,000 after 60 years of age.</p>
+    <p><span class="highlight">Eligibility:</span> Indian citizens aged 18–40 years.</p>
+    <p><span class="highlight">State-Specific:</span> No</p>
+    <p><span class="highlight">States Applicable In:</span> All states and UTs</p>
+</div>
+
+        <!-- Add more scheme cards here following the same structure -->
+    </div>
+    <div class="chat-icons">
+        <div class="chat-icon chatbot" onclick="toggleChatbot()"></div>
+        <div class="chat-icon whatsapp" onclick="window.location.href='https://wa.me/9994328212'">
+            <img src="https://cdn.iconscout.com/icon/free/png-512/free-whatsapp-logo-icon-download-in-svg-png-gif-file-formats--brand-social-media-pack-logos-icons-2641595.png?f=webp&w=512" alt="WhatsApp">
+        </div>
+    </div>
+    <div id="chatbotWrapper" class="chatbot-wrapper">
+        <div class="chatbot-header">Chatbot</div>
+        <div class="chatbot-body" id="dialogue"></div>
+        <div class="chatbot-footer">
+            <form onSubmit="return sendMessage()">
+                <input type="text" id="chatbotMessage" placeholder="Type your message...">
+                <button type="submit">Send</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
